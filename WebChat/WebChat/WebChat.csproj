@@ -168,14 +168,21 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ChatMessagesController.cs" />
+    <Compile Include="Controllers\ChatRoomsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ChatMessage.cs" />
+    <Compile Include="Models\ChatRoom.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\WebChatContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -234,6 +241,21 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\ChatRooms\Create.cshtml" />
+    <Content Include="Views\ChatRooms\Delete.cshtml" />
+    <Content Include="Views\ChatRooms\Details.cshtml" />
+    <Content Include="Views\ChatRooms\Edit.cshtml" />
+    <Content Include="Views\ChatRooms\Index.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\Delete.cshtml" />
+    <Content Include="Views\Users\Details.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\ChatMessages\Create.cshtml" />
+    <Content Include="Views\ChatMessages\Delete.cshtml" />
+    <Content Include="Views\ChatMessages\Details.cshtml" />
+    <Content Include="Views\ChatMessages\Edit.cshtml" />
+    <Content Include="Views\ChatMessages\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
