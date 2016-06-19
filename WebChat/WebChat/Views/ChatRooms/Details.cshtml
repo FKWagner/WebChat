@@ -10,7 +10,14 @@
     <h4>ChatRoom</h4>
     <hr />
     <dl class="dl-horizontal">
-    </dl>
+        <dt>
+            @Html.DisplayNameFor(model => model.ChatRoomName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ChatRoomName)
+        </dd>
+
+   </dl>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ChatRoomId }) |

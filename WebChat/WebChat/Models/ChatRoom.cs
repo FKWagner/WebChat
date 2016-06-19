@@ -6,9 +6,9 @@ namespace WebChat.Models
     {
         public int ChatRoomId { get; set; }
 
-        public List<ChatMessage> ChatMessages { get; set; }
+        public string ChatRoomName { get; set; }
 
-        public List<User> Users { get; set; }
+        public List<ChatMessage> ChatMessages { get; set; }
 
     }
 }

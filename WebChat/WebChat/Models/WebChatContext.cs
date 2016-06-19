@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace WebChat.Models
 {
-    public class WebChatContext : DbContext
+    public class WebChatContext : IdentityDbContext<ApplicationUser>
     {
         // You can add custom code to this file. Changes will not be overwritten.
         // 
@@ -20,8 +16,6 @@ namespace WebChat.Models
         }
 
         public System.Data.Entity.DbSet<WebChat.Models.ChatRoom> ChatRooms { get; set; }
-
-        public System.Data.Entity.DbSet<WebChat.Models.User> Users { get; set; }
 
         public System.Data.Entity.DbSet<WebChat.Models.ChatMessage> ChatMessages { get; set; }
     }

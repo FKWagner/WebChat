@@ -1,28 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="WebChat.Models.User">
-    <Position X="3.75" Y="3" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAgBAAAAwAAAAAAAACAAAAAAAAAAA=</HashCode>
-      <FileName>Models\User.cs</FileName>
-    </TypeIdentifier>
-  </Class>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
   <Class Name="WebChat.Models.ChatRoom">
-    <Position X="7.75" Y="2.25" Width="1.5" />
+    <Position X="1" Y="1" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAAAACAAAAAAABAAAAAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAAiAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\ChatRoom.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="Users" />
       <Property Name="ChatMessages" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="WebChat.Models.ChatMessage">
-    <Position X="3.75" Y="0.5" Width="1.5" />
+    <Position X="6.75" Y="1" Width="2" />
     <TypeIdentifier>
       <HashCode>AAABAAAAAAAAAAAAAAgAAAACAAAAAAUAAAAAAAAAAAA=</HashCode>
       <FileName>Models\ChatMessage.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="User" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WebChat.Models.ApplicationUser" Collapsed="true">
+    <Position X="6.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\IdentityModels.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
