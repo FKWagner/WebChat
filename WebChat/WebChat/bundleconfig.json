@@ -1,0 +1,20 @@
+[
+  {
+    "outputFileName": "Content/Site.min.css",
+    "inputFiles": [
+      "Content/Site.css"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/react-15.1.0.min.js",
+    "inputFiles": [
+      "Scripts/react-15.1.0.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/react-dom-15.1.0.min.js",
+    "inputFiles": [
+      "Scripts/react-dom-15.1.0.js"
+    ]
+  }
+]

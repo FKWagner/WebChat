@@ -1,0 +1,7 @@
+[
+  {
+    "outputFile": "Content/bootstrap.css",
+    "inputFile": "Content/less/bootstrap.less",
+    "sourceMap": false
+  }
+]

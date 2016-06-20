@@ -10,7 +10,6 @@ namespace WebChat.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            ContextKey = "WebChat.Models.WebChatContext";
         }
 
         protected override void Seed(WebChat.Models.WebChatContext context)

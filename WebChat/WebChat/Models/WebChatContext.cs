@@ -18,5 +18,10 @@ namespace WebChat.Models
         public System.Data.Entity.DbSet<WebChat.Models.ChatRoom> ChatRooms { get; set; }
 
         public System.Data.Entity.DbSet<WebChat.Models.ChatMessage> ChatMessages { get; set; }
+
+        public static WebChatContext Create()
+        {
+            return new WebChatContext();
+        }
     }
 }
