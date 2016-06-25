@@ -57,6 +57,13 @@ namespace WebChat.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
+        // GET: /Account/Login
+        [AllowAnonymous]
+        public ActionResult LoginPart(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            return PartialView("login");
+        }
 
         //
         // POST: /Account/Login

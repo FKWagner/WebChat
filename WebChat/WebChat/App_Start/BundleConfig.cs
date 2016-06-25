@@ -16,6 +16,7 @@ namespace WebChat
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/respond.js"));
 
+            // React things -- could be minified for release build. Have to test out the 2 Tools from Mads Kristensen
             bundles.Add(new ScriptBundle("~/bundles/react").Include(
                       "~/Scripts/react-15.1.0.js"));
             bundles.Add(new ScriptBundle("~/bundles/react-dom").Include(

@@ -12,6 +12,8 @@ namespace WebChat.Models
 
         public int SequenceNumber { get; set; }
 
+        public string Message { get; set; }
+
         public virtual ApplicationUser User { get; set; }
     }
 }
