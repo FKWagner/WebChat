@@ -14,7 +14,7 @@ namespace WebChat.Controllers
         [OutputCache(Location = System.Web.UI.OutputCacheLocation.None)]
         public ActionResult Index()
         {
-            return Json(HttpStatusCode.Forbidden);
+            return Json(HttpStatusCode.Forbidden, JsonRequestBehavior.AllowGet);
         }
 
     }

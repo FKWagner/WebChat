@@ -26,7 +26,7 @@
                     <ChatRoom data={this.state.data} />
                 </div>
                 <div className="container">
-                    
+                    <ChatMessageInput />
                 </div>
             </div>
        );    

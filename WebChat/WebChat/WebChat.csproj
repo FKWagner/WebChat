@@ -400,11 +400,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\ChatRooms\Create.cshtml" />
-    <Content Include="Views\ChatRooms\Delete.cshtml" />
-    <Content Include="Views\ChatRooms\Details.cshtml" />
-    <Content Include="Views\ChatRooms\Edit.cshtml" />
-    <Content Include="Views\ChatRooms\Index.cshtml" />
     <Content Include="Views\ChatMessages\Create.cshtml" />
     <Content Include="Views\ChatMessages\Delete.cshtml" />
     <Content Include="Views\ChatMessages\Details.cshtml" />
