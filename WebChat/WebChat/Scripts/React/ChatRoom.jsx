@@ -1,4 +1,5 @@
 ﻿var ChatRoom = React.createClass({
+
     render: function () {
         var ChatMessages = this.props.data.map(function (ChatMessage) {
             return (
@@ -14,7 +15,3 @@
       );
     }
 });
-ReactDOM.render(
-  <ChatRoom url="/ChatRooms/Messages" />,
-  document.getElementById('ChatRoom')
-);

@@ -409,11 +409,11 @@
     <Content Include="Views\ChatMessages\Delete.cshtml" />
     <Content Include="Views\ChatMessages\Details.cshtml" />
     <Content Include="Views\ChatMessages\Edit.cshtml" />
-    <Content Include="Views\ChatMessages\Index.cshtml" />
     <Content Include="Scripts\React\ChatRoom.jsx" />
     <Content Include="Scripts\React\ChatMessage.jsx" />
     <Content Include="Scripts\React\Users.jsx" />
     <Content Include="Scripts\React\ChatMessageInput.jsx" />
+    <Content Include="Scripts\React\Index.jsx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

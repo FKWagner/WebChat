@@ -12,29 +12,20 @@ using Microsoft.AspNet.Identity;
 
 namespace WebChat.Controllers
 {
+    [Authorize]
     public class ChatMessagesController : Controller
     {
         private WebChatContext db = new WebChatContext();
 
         // GET: ChatMessages
-        public async Task<ActionResult> Index()
+        [Route("ChatMessages/{ChatRoom:int}")]
+        public async Task<ActionResult> Index(int? ChatRoom)
         {
-            return View(await db.ChatMessages.ToListAsync());
-        }
-
-        // GET: ChatMessages/Details/5
-        public async Task<ActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ChatMessage chatMessage = await db.ChatMessages.FindAsync(id);
-            if (chatMessage == null)
-            {
-                return HttpNotFound();
-            }
-            return View(chatMessage);
+            var ChatMessages = from s in db.ChatMessages select s;
+            ChatMessages = ChatMessages.OrderByDescending(s => s.SequenceNumber);
+            ChatMessages = ChatMessages.Where(s => s.ChatRoom is ChatRoom);
+            
+            return Json(await ChatMessages.ToListAsync(), JsonRequestBehavior.AllowGet);
         }
 
         // GET: ChatMessages/Create
@@ -48,13 +39,13 @@ namespace WebChat.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ChatMessageID,DateTime,SequenceNumber")] ChatMessage chatMessage)
+        public async Task<ActionResult> Create([Bind(Include = "ChatMessageID,ChatRoom")] ChatMessage chatMessage)
         {
             if (ModelState.IsValid)
             {
                 db.ChatMessages.Add(chatMessage);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return Content("Success :)");
             }
 
             return View(chatMessage);

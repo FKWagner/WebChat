@@ -3,18 +3,15 @@
 }
 
 <div class="row">
-    <div class="col-md-8">
-        <div id="ChatRoom" class="container">
-
-        </div>
-        <div class="container" id="ChatMessage"></div>
+    <div class="col-md-8" id="Chat">
     </div>
     <div class="col-md-4" id="Users">
     </div>
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/Scripts/React/ChatMessage.jsx")
     @Scripts.Render("~/Scripts/React/ChatRoom.jsx")
+    @Scripts.Render("~/Scripts/React/ChatMessage.jsx")
     @Scripts.Render("~/Scripts/React/Users.jsx")
+    @Scripts.Render("~/Scripts/React/Index.jsx")
 }
