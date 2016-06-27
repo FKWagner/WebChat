@@ -3,9 +3,9 @@
     render: function () {
         var ChatMessages = this.props.data.map(function (ChatMessage) {
             return (
-                <ChatMesage author={ChatMessage.User}>
+                <ChatMessage author={ChatMessage.User}>
                     {ChatMessage.Message}
-                </ChatMesage>
+                </ChatMessage>
                 );
         });
         return (
@@ -15,3 +15,4 @@
       );
     }
 });
+

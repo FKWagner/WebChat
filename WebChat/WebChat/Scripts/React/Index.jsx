@@ -1,5 +1,9 @@
 ﻿var Index = React.createClass({
 
+    getInitialState: function () {
+        return { data: [] };
+    },
+
     loadChatMessagesFromServer: function () {
         var xhr = new XMLHttpRequest();
         xhr.open('get', this.props.url, true)
@@ -10,8 +14,17 @@
         xhr.send();
     },
 
-    getInitialState: function () {
-        return { data: [] };
+    handleChatMessageSubmit: function (ChatMessageInput) {
+        var data = new FormData();
+        data.append("Message", ChatMessageInput.ChatMessage);
+        data.append("ChatRoomID", "1");
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('post', this.props.submitUrl, true);
+        xhr.onload = function () {
+            this.loadChatMessagesFromServer();
+        }.bind(this);
+        xhr.send(data);
     },
 
     componentDidMount: function () {
@@ -26,7 +39,7 @@
                     <ChatRoom data={this.state.data} />
                 </div>
                 <div className="container">
-                    <ChatMessageInput />
+                    <ChatMessageInput onChatMessageSubmit={this.handleChatMessageSubmit} />
                 </div>
             </div>
        );    
@@ -34,6 +47,6 @@
 });
 
 ReactDOM.render(
-  <Index url="/ChatMessages/1" pollInterval={20000} />,
+  <Index url="/ChatMessages/1" submitUrl="ChatMessages/Create" pollInterval={20000} />,
   document.getElementById('Chat')
 );

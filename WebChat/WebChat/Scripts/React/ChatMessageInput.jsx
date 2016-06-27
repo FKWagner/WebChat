@@ -6,7 +6,7 @@
         if (!ChatMessage) {
             return;
         }
-        // TODO: send request to the server
+        this.props.onChatMessageSubmit({ ChatMessage: ChatMessage });
         this.refs.ChatMessage.value = '';
         return;
     },
