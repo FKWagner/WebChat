@@ -1,15 +1,15 @@
 ﻿var ChatRoom = React.createClass({
 
     render: function () {
-        var ChatMessages = this.props.data.map(function (ChatMessage) {
+        var ChatMessages = this.props.data.map(function (chatmessage) {
             return (
-                <ChatMessage author={ChatMessage.User}>
-                    {ChatMessage.Message}
+                <ChatMessage>
+                    {chatmessage.Message}
                 </ChatMessage>
                 );
         });
         return (
-          <div className="list-group">
+          <div className="chatroom list-group">
               {ChatMessages}
           </div>
       );

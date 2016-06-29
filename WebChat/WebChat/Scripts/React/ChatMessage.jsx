@@ -1,10 +1,9 @@
 ﻿var ChatMessage = React.createClass({
     render: function() {
         return (
-          <div className="list-group-item">
-              <h3 className="text-left">{this.props.User}</h3>
+          <div className="chatmessage list-group-item">
               <p className="text-right"><span className="glyphicon-time"></span>{this.props.datetime}</p>
-              <p>{this.props.message}</p>
+              <p>{this.props.children}</p>
           </div>
       );
     }
