@@ -3,8 +3,8 @@
     render: function () {
         var ChatMessages = this.props.data.map(function (chatmessage) {
             return (
-                <ChatMessage>
-                    {chatmessage.Message}
+                <ChatMessage datetime={chatmessage.DateTime}>
+                    {chatmessage.Message} 
                 </ChatMessage>
                 );
         });

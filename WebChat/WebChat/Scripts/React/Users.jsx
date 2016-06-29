@@ -2,7 +2,7 @@
     render: function() {
         return (
           <div className="list-group">
-                <UserList />
+               
           </div>
       );
     }

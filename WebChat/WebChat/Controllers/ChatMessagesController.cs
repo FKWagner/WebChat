@@ -24,7 +24,7 @@ namespace WebChat.Controllers
             ChatRoom ChatRoom = db.ChatRooms.Find(Room);
 
             var ChatMessages = from s in db.ChatMessages
-                               orderby s.SequenceNumber descending
+                               orderby s.SequenceNumber ascending
                                select new { s.ChatMessageID, s.DateTime, s.Message, s.SequenceNumber };
             //ChatMessages = ChatMessages.OrderByDescending(s => s.SequenceNumber);
             //ChatMessages = ChatMessages.Where(s => s.ChatRoom is ChatRoom);
