@@ -1,6 +1,5 @@
 ﻿var path = require('path');
 var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
 var pkg = require('./package.json');
 
 // bundle dependencies in separate vendor bundle
