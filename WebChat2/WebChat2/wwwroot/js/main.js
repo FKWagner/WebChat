@@ -1,8 +1,25 @@
-webpackJsonp([0],[
-/* 0 */
+webpackJsonp([0],{
+
+/***/ 0:
 /*!********************!*\
   !*** ./app/App.js ***!
   \********************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _HelloWorld = __webpack_require__(/*! ./components/HelloWorld */ 172);
+	
+	var _HelloWorld2 = _interopRequireDefault(_HelloWorld);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ },
+
+/***/ 172:
+/*!**************************************!*\
+  !*** ./app/components/HelloWorld.js ***!
+  \**************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49,5 +66,6 @@ webpackJsonp([0],[
 	(0, _reactDom.render)(_react2.default.createElement(Hello, null), document.getElementById("root"));
 
 /***/ }
-]);
+
+});
 //# sourceMappingURL=main.js.map

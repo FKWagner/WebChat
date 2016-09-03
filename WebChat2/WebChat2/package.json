@@ -24,6 +24,5 @@
     "webpack-dev-server": "1.15.1",
     "html-webpack-plugin": "2.22.0",
     "jsx-loader": "0.13.2"
-  },
-  "main": "index.js"
+  }
 }
