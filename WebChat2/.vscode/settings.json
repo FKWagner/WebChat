@@ -1,0 +1,10 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    //Setting for https://github.com/Microsoft/vscode-npm-scripts
+    "npm.runInTerminal": true,
+    "npm.runSilent": false,
+    "npm.includeDirectories": [
+        "WebChat2"
+    ],
+    "npm.useRootDirectory": false 
+}

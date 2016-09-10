@@ -226,26 +226,40 @@ webpackJsonp([0],{
 	    function Card() {
 	        _classCallCheck(this, Card);
 	
-	        return _possibleConstructorReturn(this, (Card.__proto__ || Object.getPrototypeOf(Card)).apply(this, arguments));
+	        var _this = _possibleConstructorReturn(this, (Card.__proto__ || Object.getPrototypeOf(Card)).apply(this, arguments));
+	
+	        _this.state = {
+	            showDetails: false
+	        };
+	        return _this;
 	    }
 	
 	    _createClass(Card, [{
 	        key: 'render',
 	        value: function render() {
+	            var _this2 = this;
+	
+	            var cardDetails = void 0;
+	            if (this.state.showDetails) {
+	                cardDetails = _react2.default.createElement(
+	                    'div',
+	                    { className: 'card__details' },
+	                    this.props.description,
+	                    _react2.default.createElement(_CheckList2.default, { cardID: this.props.id, tasks: this.props.tasks })
+	                );
+	            }
+	
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'card' },
 	                _react2.default.createElement(
 	                    'div',
-	                    { className: 'card__title' },
+	                    { className: 'card__title', onClick: function onClick() {
+	                            return _this2.setState({ showDetails: !_this2.state.showDetails });
+	                        } },
 	                    this.props.title
 	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'card__details' },
-	                    this.props.description,
-	                    _react2.default.createElement(_CheckList2.default, { cardID: this.props.id, tasks: this.props.tasks })
-	                )
+	                cardDetails
 	            );
 	        }
 	    }]);
