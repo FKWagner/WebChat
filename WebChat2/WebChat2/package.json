@@ -25,4 +25,5 @@
     "html-webpack-plugin": "2.22.0",
     "jsx-loader": "0.13.2"
   }
+, "-vs-binding":{"AfterBuild":["dev-watch"]}
 }
