@@ -14,7 +14,7 @@ webpackJsonp([0],{
 	
 	var _reactDom = __webpack_require__(/*! react-dom */ 34);
 	
-	var _KanbanBoard = __webpack_require__(/*! ./Components/KanbanBoard */ 472);
+	var _KanbanBoard = __webpack_require__(/*! ./Components/KanbanBoard */ 172);
 	
 	var _KanbanBoard2 = _interopRequireDefault(_KanbanBoard);
 	
@@ -50,7 +50,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 472:
+/***/ 172:
 /*!***************************************!*\
   !*** ./app/Components/KanbanBoard.js ***!
   \***************************************/
@@ -68,7 +68,7 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _List = __webpack_require__(/*! ./List */ 473);
+	var _List = __webpack_require__(/*! ./List */ 173);
 	
 	var _List2 = _interopRequireDefault(_List);
 	
@@ -121,7 +121,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 473:
+/***/ 173:
 /*!********************************!*\
   !*** ./app/Components/List.js ***!
   \********************************/
@@ -139,7 +139,7 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Card = __webpack_require__(/*! ./Card */ 474);
+	var _Card = __webpack_require__(/*! ./Card */ 174);
 	
 	var _Card2 = _interopRequireDefault(_Card);
 	
@@ -190,7 +190,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 474:
+/***/ 174:
 /*!********************************!*\
   !*** ./app/Components/Card.js ***!
   \********************************/
@@ -208,7 +208,7 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _CheckList = __webpack_require__(/*! ./CheckList */ 475);
+	var _CheckList = __webpack_require__(/*! ./CheckList */ 175);
 	
 	var _CheckList2 = _interopRequireDefault(_CheckList);
 	
@@ -235,10 +235,13 @@ webpackJsonp([0],{
 	    }
 	
 	    _createClass(Card, [{
+	        key: 'toggleDetails',
+	        value: function toggleDetails() {
+	            this.setState({ showDetails: !this.state.showDetails });
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var _this2 = this;
-	
 	            var cardDetails = void 0;
 	            if (this.state.showDetails) {
 	                cardDetails = _react2.default.createElement(
@@ -254,9 +257,9 @@ webpackJsonp([0],{
 	                { className: 'card' },
 	                _react2.default.createElement(
 	                    'div',
-	                    { className: 'card__title', onClick: function onClick() {
-	                            return _this2.setState({ showDetails: !_this2.state.showDetails });
-	                        } },
+	                    { className: this.state.showDetails ? "card__title card__title--is-open" : "card__title" // End of line comment
+	                        /* Nomral JS Comment */
+	                        , onClick: this.toggleDetails.bind(this) },
 	                    this.props.title
 	                ),
 	                cardDetails
@@ -271,7 +274,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 475:
+/***/ 175:
 /*!*************************************!*\
   !*** ./app/Components/CheckList.js ***!
   \*************************************/

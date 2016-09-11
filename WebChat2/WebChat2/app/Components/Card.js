@@ -9,6 +9,10 @@ class Card extends Component {
         }
     }
 
+    toggleDetails() {
+        this.setState({showDetails: !this.state.showDetails})
+    }
+
     render() {
         let cardDetails;
         if(this.state.showDetails) {
@@ -22,9 +26,12 @@ class Card extends Component {
 
         return(
             <div className="card">
-              <div className="card__title" onClick={
-                  ()=>this.setState({showDetails: !this.state.showDetails})
-              }>{this.props.title}</div>
+            {/* Need to put {} around comment in Child section - inside a JSX Object no need for this */ }
+                <div className={this.state.showDetails? "card__title card__title--is-open" : "card__title"} // End of line comment
+                /* Nomral JS Comment */ 
+                     onClick={this.toggleDetails.bind(this)}>
+                     {this.props.title}
+                </div>
               {cardDetails}
             </div>
         )
