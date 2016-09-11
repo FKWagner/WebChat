@@ -24,12 +24,14 @@ webpackJsonp([0],{
 	    id: 1,
 	    title: "Read the Book",
 	    description: "I should read the **whole** book and the online extensions",
+	    color: "#BD8D31",
 	    status: "in-progress",
 	    tasks: []
 	}, {
 	    id: 2,
 	    title: "Write some code",
 	    description: "Code along with the samples in the book. The complete source code can be found at [github](https://github.com/pro-react)",
+	    color: "#3A7E28",
 	    status: "todo",
 	    tasks: [{
 	        id: 1,
@@ -44,6 +46,13 @@ webpackJsonp([0],{
 	        name: "My own experiments",
 	        done: false
 	    }]
+	}, {
+	    id: 3,
+	    title: "This is a new card with a very long title, thus having more then 80 charaters",
+	    description: "Show custom propType failure",
+	    color: "#AFFE",
+	    status: "done",
+	    tasks: []
 	}];
 	
 	(0, _reactDom.render)(_react2.default.createElement(_KanbanBoard2.default, { cards: cardsList }), document.getElementById('root'));
@@ -117,6 +126,10 @@ webpackJsonp([0],{
 	    return KanbanBoard;
 	}(_react.Component);
 	
+	KanbanBoard.propTypes = {
+	    cards: _react.PropTypes.arrayOf(_react.PropTypes.object)
+	};
+	
 	exports.default = KanbanBoard;
 
 /***/ },
@@ -164,9 +177,11 @@ webpackJsonp([0],{
 	        key: 'render',
 	        value: function render() {
 	            var cards = this.props.cards.map(function (card) {
-	                return _react2.default.createElement(_Card2.default, { id: card.id,
+	                return _react2.default.createElement(_Card2.default, { key: card.id,
+	                    id: card.id,
 	                    title: card.title,
 	                    description: card.description,
+	                    color: card.color,
 	                    tasks: card.tasks });
 	            });
 	
@@ -185,6 +200,11 @@ webpackJsonp([0],{
 	
 	    return List;
 	}(_react.Component);
+	
+	List.propTypes = {
+	    title: _react.PropTypes.string.isRequired,
+	    cards: _react.PropTypes.arrayOf(_react.PropTypes.object)
+	};
 	
 	exports.default = List;
 
@@ -224,6 +244,15 @@ webpackJsonp([0],{
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
+	var titlePropType = function titlePropType(props, propName, componentName) {
+	    if (props[propName]) {
+	        var value = props[propName];
+	        if (typeof value !== 'string' || value.length > 80) {
+	            return new Error(propName + ' in ' + componentName + ' is longer than 80 characters');
+	        }
+	    }
+	};
+	
 	var Card = function (_Component) {
 	    _inherits(Card, _Component);
 	
@@ -256,9 +285,20 @@ webpackJsonp([0],{
 	                );
 	            }
 	
+	            var sideColor = {
+	                position: 'absolute',
+	                zIndex: -1,
+	                top: 0,
+	                bottom: 0,
+	                left: 0,
+	                width: 7,
+	                backgroundColor: this.props.color
+	            };
+	
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'card' },
+	                _react2.default.createElement('div', { style: sideColor }),
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: this.state.showDetails ? "card__title card__title--is-open" : "card__title" // End of line comment
@@ -273,6 +313,14 @@ webpackJsonp([0],{
 	
 	    return Card;
 	}(_react.Component);
+	
+	Card.propTypes = {
+	    id: _react.PropTypes.number,
+	    title: titlePropType,
+	    description: _react.PropTypes.string,
+	    color: _react.PropTypes.string,
+	    tasks: _react.PropTypes.arrayOf(_react.PropTypes.object)
+	};
 	
 	exports.default = Card;
 
@@ -319,7 +367,7 @@ webpackJsonp([0],{
 	            var tasks = this.props.tasks.map(function (task) {
 	                return _react2.default.createElement(
 	                    "li",
-	                    { className: "checklist__task" },
+	                    { key: task.id, className: "checklist__task" },
 	                    _react2.default.createElement("input", { type: "checkbox", defaultChecked: "task.done" }),
 	                    task.name,
 	                    _react2.default.createElement("a", { href: "#", className: "checklist__task--remove" })
@@ -333,13 +381,21 @@ webpackJsonp([0],{
 	                    "ul",
 	                    null,
 	                    tasks
-	                )
+	                ),
+	                _react2.default.createElement("input", { type: "text",
+	                    className: "checklist--add-task",
+	                    placeholder: "Type then hit Enter to add a task" })
 	            );
 	        }
 	    }]);
 	
 	    return CheckList;
 	}(_react.Component);
+	
+	CheckList.propTypes = {
+	    cardId: _react.PropTypes.number,
+	    tasks: _react.PropTypes.arrayOf(_react.PropTypes.object)
+	};
 	
 	exports.default = CheckList;
 
