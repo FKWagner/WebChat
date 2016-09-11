@@ -6,14 +6,14 @@ class List extends Component {
         var cards = this.props.cards.map((card) => {
             return <Card id={card.id}
                          title={card.title}
-                         descrtiption={card.descrtiption}
+                         description={card.description}
                          tasks={card.tasks} />
         })
 
         return(
             <div className="list">
               <h1>{this.props.title}</h1>
-              {cards}
+             {cards}
             </div>
         )
     }

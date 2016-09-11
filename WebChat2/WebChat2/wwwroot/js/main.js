@@ -23,13 +23,13 @@ webpackJsonp([0],{
 	var cardsList = [{
 	    id: 1,
 	    title: "Read the Book",
-	    description: "I should read the whole book and the online extensions",
+	    description: "I should read the **whole** book and the online extensions",
 	    status: "in-progress",
 	    tasks: []
 	}, {
 	    id: 2,
 	    title: "Write some code",
-	    description: "Code along with the samples in the book",
+	    description: "Code along with the samples in the book. The complete source code can be found at [github](https://github.com/pro-react)",
 	    status: "todo",
 	    tasks: [{
 	        id: 1,
@@ -166,7 +166,7 @@ webpackJsonp([0],{
 	            var cards = this.props.cards.map(function (card) {
 	                return _react2.default.createElement(_Card2.default, { id: card.id,
 	                    title: card.title,
-	                    descrtiption: card.descrtiption,
+	                    description: card.description,
 	                    tasks: card.tasks });
 	            });
 	
@@ -212,6 +212,10 @@ webpackJsonp([0],{
 	
 	var _CheckList2 = _interopRequireDefault(_CheckList);
 	
+	var _marked = __webpack_require__(/*! marked */ 176);
+	
+	var _marked2 = _interopRequireDefault(_marked);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -247,7 +251,7 @@ webpackJsonp([0],{
 	                cardDetails = _react2.default.createElement(
 	                    'div',
 	                    { className: 'card__details' },
-	                    this.props.description,
+	                    _react2.default.createElement('span', { dangerouslySetInnerHTML: { __html: (0, _marked2.default)(this.props.description) } }),
 	                    _react2.default.createElement(_CheckList2.default, { cardID: this.props.id, tasks: this.props.tasks })
 	                );
 	            }
