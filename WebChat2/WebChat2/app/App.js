@@ -37,7 +37,7 @@ let cardsList = [
     },
     {
         id: 3,
-        title: "This is a new card with a very long title, thus having more then 80 charaters",
+        title: "This is a new card with a very long title, thus having more then 80 charaters lets throw a warning",
         description: "Show custom propType failure",
         color: "#AFFE",
         status: "done",
