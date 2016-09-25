@@ -254,6 +254,8 @@ webpackJsonp([0],[
 	
 	__webpack_require__(/*! babel-polyfill */ 176);
 	
+	var _utils = __webpack_require__(/*! ../utils */ 634);
+	
 	var _KanbanBoard = __webpack_require__(/*! ./KanbanBoard */ 472);
 	
 	var _KanbanBoard2 = _interopRequireDefault(_KanbanBoard);
@@ -285,6 +287,11 @@ webpackJsonp([0],[
 	        _this.state = {
 	            cards: []
 	        };
+	
+	        // only call updateCardStatus when arguments changed
+	        _this.updateCardStatus = (0, _utils.throttle)(_this.updateCardStatus.bind(_this));
+	        // Call updateCardPosition at max every 500ms (or when arguments changed)
+	        _this.updateCardPosition = (0, _utils.throttle)(_this.updateCardPosition.bind(_this), 500);
 	        return _this;
 	    }
 	
@@ -466,8 +473,8 @@ webpackJsonp([0],[
 	                    delete: this.deleteTask.bind(this),
 	                    add: this.addTask.bind(this) },
 	                cardCallbacks: {
-	                    updateStatus: this.updateCardStatus.bind(this),
-	                    updatePosition: this.updateCardPosition.bind(this)
+	                    updateStatus: this.updateCardStatus,
+	                    updatePosition: this.updateCardPosition
 	                }
 	            });
 	        }
@@ -1029,9 +1036,22 @@ webpackJsonp([0],[
 	    }
 	};
 	
+	var cardDropSpec = {
+	    hover: function hover(props, monitor) {
+	        var draggedId = monitor.getItem().id;
+	        props.cardCallbacks.updatePosition(draggedId, props.id);
+	    }
+	};
+	
 	var collectDrag = function collectDrag(connect, monitor) {
 	    return {
 	        connectDragSource: connect.dragSource()
+	    };
+	};
+	
+	var collectDrop = function collectDrop(connect, monitor) {
+	    return {
+	        connectDropTarget: connect.dropTarget()
 	    };
 	};
 	
@@ -1057,7 +1077,9 @@ webpackJsonp([0],[
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var connectDragSource = this.props.connectDragSource;
+	            var _props = this.props;
+	            var connectDragSource = _props.connectDragSource;
+	            var connectDropTarget = _props.connectDropTarget;
 	
 	
 	            var cardDetails = void 0;
@@ -1082,7 +1104,7 @@ webpackJsonp([0],[
 	                backgroundColor: this.props.color
 	            };
 	
-	            return connectDragSource(_react2.default.createElement(
+	            return connectDropTarget(connectDragSource(_react2.default.createElement(
 	                'div',
 	                { className: 'card' },
 	                _react2.default.createElement('div', { style: sideColor }),
@@ -1100,7 +1122,7 @@ webpackJsonp([0],[
 	                        transitionLeaveTimeout: 250 },
 	                    cardDetails
 	                )
-	            ));
+	            )));
 	        }
 	    }]);
 	
@@ -1115,10 +1137,13 @@ webpackJsonp([0],[
 	    tasks: _react.PropTypes.arrayOf(_react.PropTypes.object),
 	    taskCallbacks: _react.PropTypes.object,
 	    cardCallbacks: _react.PropTypes.object,
-	    connectDragSource: _react.PropTypes.func.isRequired
+	    connectDragSource: _react.PropTypes.func.isRequired,
+	    connectDropTarget: _react.PropTypes.func.isRequired
 	};
 	
-	exports.default = (0, _reactDnd.DragSource)(_constant2.default.CARD, cardDragSpec, collectDrag)(Card);
+	var dragHighOrderCard = (0, _reactDnd.DragSource)(_constant2.default.CARD, cardDragSpec, collectDrag)(Card);
+	var dragDrophighOrderCard = (0, _reactDnd.DropTarget)(_constant2.default.CARD, cardDropSpec, collectDrop)(dragHighOrderCard);
+	exports.default = dragDrophighOrderCard;
 
 /***/ },
 /* 475 */,
@@ -9387,6 +9412,47 @@ webpackJsonp([0],[
 	}
 	
 	module.exports = exports['default'];
+
+/***/ },
+/* 634 */
+/*!**********************!*\
+  !*** ./app/utils.js ***!
+  \**********************/
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	var throttle = exports.throttle = function throttle(func, wait) {
+	    var context = void 0,
+	        args = void 0,
+	        prevArgs = void 0,
+	        argsChanged = void 0,
+	        result = void 0;
+	    var previous = 0;
+	    return function () {
+	        var now = void 0,
+	            remaining = void 0;
+	        if (wait) {
+	            now = Date.now();
+	            remaining = wait - (now - previous);
+	        }
+	        context = this;
+	        args = arguments;
+	        argsChanged = JSON.stringify(args) != JSON.stringify(prevArgs);
+	        prevArgs = Object.assign({}, args);
+	        if (argsChanged || wait && (remaining <= 0 || remaining > wait)) {
+	            if (wait) {
+	                previous = now;
+	            }
+	            result = func.apply(context, args);
+	            context = args = null;
+	        }
+	        return result;
+	    };
+	};
 
 /***/ }
 ]);
