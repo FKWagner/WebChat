@@ -131,11 +131,15 @@ webpackJsonp([0],{
 	            }).catch(function (error) {
 	                console.log('Error fetching and parsing data', error);
 	            });
+	
+	            window.state = this.state;
 	        }
 	    }, {
 	        key: 'addTask',
 	        value: function addTask(cardId, taskName) {
 	            var _this3 = this;
+	
+	            var prevState = this.state;
 	
 	            var cardIndex = this.state.cards.findIndex(function (card) {
 	                return card.id == cardId;
@@ -156,16 +160,27 @@ webpackJsonp([0],{
 	            })
 	            // promises running inside :)
 	            .then(function (response) {
-	                return response.json();
+	                if (response.ok) {
+	                    return response.json();
+	                } else {
+	                    throw new Error("Server response wasn't OK");
+	                }
 	            }).then(function (responseData) {
 	                // When server returns the definitve ID used for the new Task on the server, update it on React
 	                newTask.id = responseData.id;
 	                _this3.setState({ cards: nextState });
+	            }).catch(function (error) {
+	                _this3.setState(prevState);
 	            });
 	        }
 	    }, {
 	        key: 'deleteTask',
 	        value: function deleteTask(cardId, taskId, taskIndex) {
+	            var _this4 = this;
+	
+	            // Keep a reference to the original state prioir to the mutations in case you need to revert the optimistic changes in the UI
+	            var prevState = this.state;
+	
 	            // Find the index of the card
 	            var cardIndex = this.state.cards.findIndex(function (card) {
 	                return card.id == cardId;
@@ -182,11 +197,23 @@ webpackJsonp([0],{
 	            fetch(API_URL + '/cards/' + cardId + '/tasks/' + taskId, {
 	                method: 'delete',
 	                headers: API_HEADERS
+	            }).then(function (response) {
+	                if (!response.ok) {
+	                    // throw an error if server response wasn't OK so you can revert back the optimistic changes made to the UI
+	                    throw new Error("Server response wasn't OK");
+	                }
+	            }).catch(function (error) {
+	                console.error("Fetch error:", error);
+	                _this4.setState(prevState);
 	            });
 	        }
 	    }, {
 	        key: 'toggleTask',
 	        value: function toggleTask(cardId, taskId, taskIndex) {
+	            var _this5 = this;
+	
+	            var prevState = this.state;
+	
 	            // Find the index of the card
 	            var cardIndex = this.state.cards.findIndex(function (card) {
 	                return card.id == cardId;
@@ -210,6 +237,13 @@ webpackJsonp([0],{
 	                method: 'put',
 	                headers: API_HEADERS,
 	                body: JSON.stringify({ done: newDoneValue })
+	            }).then(function (response) {
+	                if (!response.ok) {
+	                    throw new Error("Server response wasn't OK");
+	                }
+	            }).catch(function (error) {
+	                console.error("Fetch error:", error);
+	                _this5.setState(prevState);
 	            });
 	        }
 	    }, {

@@ -19,7 +19,7 @@ class KanbanBoardContainer extends Component {
     }
 
     componentDidMount() {
-        fetch(API_URL+'/cards', {headers: API_HEADERS})
+        fetch(`${API_URL}/cards`, {headers: API_HEADERS})
         .then((response) => response.json())
         .then((responseData) => {
             this.setState({cards: responseData})
@@ -27,9 +27,13 @@ class KanbanBoardContainer extends Component {
         .catch((error) => {
             console.log('Error fetching and parsing data', error)
         })
+
+        window.state = this.state
     }
 
     addTask(cardId, taskName) {
+        let prevState = this.state
+
         let cardIndex = this.state.cards.findIndex((card) => card.id == cardId)
 
         let newTask = {id: Date.now(), name: taskName, done: false}
@@ -48,15 +52,27 @@ class KanbanBoardContainer extends Component {
             body: JSON.stringify(newTask)
         })
         // promises running inside :)
-        .then((response) => response.json())
+        .then((response) => {
+            if(response.ok) {
+                return response.json()
+            } else {
+                throw new Error ("Server response wasn't OK")
+            }
+        })
         .then((responseData) => {
             // When server returns the definitve ID used for the new Task on the server, update it on React
             newTask.id = responseData.id
             this.setState({cards: nextState})
         })
+        .catch((error) => {
+            this.setState(prevState)
+        })
     }
 
     deleteTask(cardId, taskId, taskIndex) {
+        // Keep a reference to the original state prioir to the mutations in case you need to revert the optimistic changes in the UI
+        let prevState = this.state
+
         // Find the index of the card
         let cardIndex = this.state.cards.findIndex((card) => card.id == cardId)
 
@@ -74,9 +90,21 @@ class KanbanBoardContainer extends Component {
             method: 'delete',
             headers: API_HEADERS
         })
+        .then((response) => {
+            if(!response.ok) {
+                // throw an error if server response wasn't OK so you can revert back the optimistic changes made to the UI
+                throw new Error ( "Server response wasn't OK")
+            }
+        })
+        .catch((error) => {
+            console.error("Fetch error:", error)
+            this.setState(prevState)
+        })
     }
 
     toggleTask(cardId, taskId, taskIndex) {
+        let prevState = this.state
+
         // Find the index of the card
         let cardIndex = this.state.cards.findIndex((card) => card.id == cardId)
 
@@ -102,6 +130,15 @@ class KanbanBoardContainer extends Component {
             method: 'put',
             headers: API_HEADERS,
             body: JSON.stringify({done: newDoneValue})
+        })
+        .then((response) => {
+            if(!response.ok) {
+                throw new Error ("Server response wasn't OK")
+            }
+        })
+        .catch((error) => {
+            console.error("Fetch error:" , error)
+            this.setState(prevState)
         })
     }
 
