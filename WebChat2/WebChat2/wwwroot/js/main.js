@@ -14,9 +14,9 @@ webpackJsonp([0],{
 	
 	var _reactDom = __webpack_require__(/*! react-dom */ 34);
 	
-	var _KanbanBoard = __webpack_require__(/*! ./Components/KanbanBoard */ 172);
+	var _KanbanBoardContainer = __webpack_require__(/*! ./Components/KanbanBoardContainer */ 172);
 	
-	var _KanbanBoard2 = _interopRequireDefault(_KanbanBoard);
+	var _KanbanBoardContainer2 = _interopRequireDefault(_KanbanBoardContainer);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -55,11 +55,182 @@ webpackJsonp([0],{
 	    tasks: []
 	}];
 	
-	(0, _reactDom.render)(_react2.default.createElement(_KanbanBoard2.default, { cards: cardsList }), document.getElementById('root'));
+	(0, _reactDom.render)(_react2.default.createElement(_KanbanBoardContainer2.default, null), document.getElementById('root'));
 
 /***/ },
 
 /***/ 172:
+/*!************************************************!*\
+  !*** ./app/Components/KanbanBoardContainer.js ***!
+  \************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactAddonsUpdate = __webpack_require__(/*! react-addons-update */ 475);
+	
+	var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
+	
+	__webpack_require__(/*! whatwg-fetch */ 178);
+	
+	__webpack_require__(/*! babel-polyfill */ 179);
+	
+	var _KanbanBoard = __webpack_require__(/*! ./KanbanBoard */ 173);
+	
+	var _KanbanBoard2 = _interopRequireDefault(_KanbanBoard);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var API_URL = 'http://kanbanapi.pro-react.com';
+	var API_HEADERS = {
+	    'Content-Type': 'application/json',
+	    Authorization: 'FWagner-education-test'
+	};
+	
+	var KanbanBoardContainer = function (_Component) {
+	    _inherits(KanbanBoardContainer, _Component);
+	
+	    function KanbanBoardContainer() {
+	        _classCallCheck(this, KanbanBoardContainer);
+	
+	        var _this = _possibleConstructorReturn(this, (KanbanBoardContainer.__proto__ || Object.getPrototypeOf(KanbanBoardContainer)).apply(this, arguments));
+	
+	        _this.state = {
+	            cards: []
+	        };
+	        return _this;
+	    }
+	
+	    _createClass(KanbanBoardContainer, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            var _this2 = this;
+	
+	            fetch(API_URL + '/cards', { headers: API_HEADERS }).then(function (response) {
+	                return response.json();
+	            }).then(function (responseData) {
+	                _this2.setState({ cards: responseData });
+	            }).catch(function (error) {
+	                console.log('Error fetching and parsing data', error);
+	            });
+	        }
+	    }, {
+	        key: 'addTask',
+	        value: function addTask(cardId, taskName) {
+	            var _this3 = this;
+	
+	            var cardIndex = this.state.cards.findIndex(function (card) {
+	                return card.id == cardId;
+	            });
+	
+	            var newTask = { id: Date.now(), name: taskName, done: false };
+	
+	            var nextState = (0, _reactAddonsUpdate2.default)(this.state.cards, _defineProperty({}, cardIndex, {
+	                tasks: { $push: [newTask] }
+	            }));
+	
+	            this.setState({ cards: nextState });
+	
+	            fetch(API_URL + '/cards/' + cardId + '/tasks', {
+	                method: 'post',
+	                headers: API_HEADERS,
+	                body: JSON.stringify(newTask)
+	            })
+	            // promises running inside :)
+	            .then(function (response) {
+	                return response.json();
+	            }).then(function (responseData) {
+	                // When server returns the definitve ID used for the new Task on the server, update it on React
+	                newTask.id = responseData.id;
+	                _this3.setState({ cards: nextState });
+	            });
+	        }
+	    }, {
+	        key: 'deleteTask',
+	        value: function deleteTask(cardId, taskId, taskIndex) {
+	            // Find the index of the card
+	            var cardIndex = this.state.cards.findIndex(function (card) {
+	                return card.id == cardId;
+	            });
+	
+	            // Create a new object without the task
+	            var nextState = (0, _reactAddonsUpdate2.default)(this.state.cards, _defineProperty({}, cardIndex, {
+	                tasks: { $splice: [[taskIndex, 1]] }
+	            }));
+	
+	            this.setState({ cards: nextState });
+	
+	            // Call this API and remove the object server side
+	            fetch(API_URL + '/cards/' + cardId + '/tasks/' + taskId, {
+	                method: 'delete',
+	                headers: API_HEADERS
+	            });
+	        }
+	    }, {
+	        key: 'toggleTask',
+	        value: function toggleTask(cardId, taskId, taskIndex) {
+	            // Find the index of the card
+	            var cardIndex = this.state.cards.findIndex(function (card) {
+	                return card.id == cardId;
+	            });
+	
+	            var newDoneValue = void 0;
+	
+	            var nextState = (0, _reactAddonsUpdate2.default)(this.state.cards, _defineProperty({}, cardIndex, {
+	                tasks: _defineProperty({}, taskIndex, {
+	                    done: { $apply: function $apply(done) {
+	                            newDoneValue = !done;
+	                            return newDoneValue;
+	                        } }
+	                })
+	            }));
+	
+	            this.setState({ cards: nextState });
+	
+	            // Update server site
+	            fetch(API_URL + '/cards/' + cardId + '/tasks/' + taskId, {
+	                method: 'put',
+	                headers: API_HEADERS,
+	                body: JSON.stringify({ done: newDoneValue })
+	            });
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(_KanbanBoard2.default, { cards: this.state.cards,
+	                taskCallbacks: {
+	                    toggle: this.toggleTask.bind(this),
+	                    delete: this.deleteTask.bind(this),
+	                    add: this.addTask.bind(this) } });
+	        }
+	    }]);
+	
+	    return KanbanBoardContainer;
+	}(_react.Component);
+	
+	exports.default = KanbanBoardContainer;
+
+/***/ },
+
+/***/ 173:
 /*!***************************************!*\
   !*** ./app/Components/KanbanBoard.js ***!
   \***************************************/
@@ -77,7 +248,7 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _List = __webpack_require__(/*! ./List */ 173);
+	var _List = __webpack_require__(/*! ./List */ 174);
 	
 	var _List2 = _interopRequireDefault(_List);
 	
@@ -106,16 +277,19 @@ webpackJsonp([0],{
 	                { className: 'app' },
 	                _react2.default.createElement(_List2.default, { id: 'todo',
 	                    title: 'To Do',
+	                    taskCallbacks: this.props.taskCallbacks,
 	                    cards: this.props.cards.filter(function (card) {
 	                        return card.status === "todo";
 	                    }) }),
 	                _react2.default.createElement(_List2.default, { id: 'in-progress',
 	                    title: 'In Progress',
+	                    taskCallbacks: this.props.taskCallbacks,
 	                    cards: this.props.cards.filter(function (card) {
 	                        return card.status === "in-progress";
 	                    }) }),
 	                _react2.default.createElement(_List2.default, { id: 'done',
 	                    title: 'Done',
+	                    taskCallbacks: this.props.taskCallbacks,
 	                    cards: this.props.cards.filter(function (card) {
 	                        return card.status === "done";
 	                    }) })
@@ -127,14 +301,15 @@ webpackJsonp([0],{
 	}(_react.Component);
 	
 	KanbanBoard.propTypes = {
-	    cards: _react.PropTypes.arrayOf(_react.PropTypes.object)
+	    cards: _react.PropTypes.arrayOf(_react.PropTypes.object),
+	    taskCallbacks: _react.PropTypes.object
 	};
 	
 	exports.default = KanbanBoard;
 
 /***/ },
 
-/***/ 173:
+/***/ 174:
 /*!********************************!*\
   !*** ./app/Components/List.js ***!
   \********************************/
@@ -146,13 +321,15 @@ webpackJsonp([0],{
 	    value: true
 	});
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(/*! react */ 1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Card = __webpack_require__(/*! ./Card */ 174);
+	var _Card = __webpack_require__(/*! ./Card */ 175);
 	
 	var _Card2 = _interopRequireDefault(_Card);
 	
@@ -176,13 +353,12 @@ webpackJsonp([0],{
 	    _createClass(List, [{
 	        key: 'render',
 	        value: function render() {
+	            var _this2 = this;
+	
 	            var cards = this.props.cards.map(function (card) {
-	                return _react2.default.createElement(_Card2.default, { key: card.id,
-	                    id: card.id,
-	                    title: card.title,
-	                    description: card.description,
-	                    color: card.color,
-	                    tasks: card.tasks });
+	                return _react2.default.createElement(_Card2.default, _extends({ key: card.id,
+	                    taskCallbacks: _this2.props.taskCallbacks
+	                }, card));
 	            });
 	
 	            return _react2.default.createElement(
@@ -203,14 +379,15 @@ webpackJsonp([0],{
 	
 	List.propTypes = {
 	    title: _react.PropTypes.string.isRequired,
-	    cards: _react.PropTypes.arrayOf(_react.PropTypes.object)
+	    cards: _react.PropTypes.arrayOf(_react.PropTypes.object),
+	    taskCallbacks: _react.PropTypes.object
 	};
 	
 	exports.default = List;
 
 /***/ },
 
-/***/ 174:
+/***/ 175:
 /*!********************************!*\
   !*** ./app/Components/Card.js ***!
   \********************************/
@@ -228,11 +405,11 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _CheckList = __webpack_require__(/*! ./CheckList */ 175);
+	var _CheckList = __webpack_require__(/*! ./CheckList */ 176);
 	
 	var _CheckList2 = _interopRequireDefault(_CheckList);
 	
-	var _marked = __webpack_require__(/*! marked */ 176);
+	var _marked = __webpack_require__(/*! marked */ 177);
 	
 	var _marked2 = _interopRequireDefault(_marked);
 	
@@ -281,7 +458,9 @@ webpackJsonp([0],{
 	                    'div',
 	                    { className: 'card__details' },
 	                    _react2.default.createElement('span', { dangerouslySetInnerHTML: { __html: (0, _marked2.default)(this.props.description) } }),
-	                    _react2.default.createElement(_CheckList2.default, { cardID: this.props.id, tasks: this.props.tasks })
+	                    _react2.default.createElement(_CheckList2.default, { cardId: this.props.id,
+	                        tasks: this.props.tasks,
+	                        taskCallbacks: this.props.taskCallbacks })
 	                );
 	            }
 	
@@ -319,20 +498,21 @@ webpackJsonp([0],{
 	    title: titlePropType,
 	    description: _react.PropTypes.string,
 	    color: _react.PropTypes.string,
-	    tasks: _react.PropTypes.arrayOf(_react.PropTypes.object)
+	    tasks: _react.PropTypes.arrayOf(_react.PropTypes.object),
+	    taskCallbacks: _react.PropTypes.object
 	};
 	
 	exports.default = Card;
 
 /***/ },
 
-/***/ 175:
+/***/ 176:
 /*!*************************************!*\
   !*** ./app/Components/CheckList.js ***!
   \*************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -362,29 +542,40 @@ webpackJsonp([0],{
 	    }
 	
 	    _createClass(CheckList, [{
-	        key: "render",
+	        key: 'checkInputKeyPress',
+	        value: function checkInputKeyPress(evt) {
+	            if (evt.key === 'Enter') {
+	                this.props.taskCallbacks.add(this.props.cardId, evt.target.value);
+	                evt.target.value = '';
+	            }
+	        }
+	    }, {
+	        key: 'render',
 	        value: function render() {
-	            var tasks = this.props.tasks.map(function (task) {
+	            var _this2 = this;
+	
+	            var tasks = this.props.tasks.map(function (task, taskIndex) {
 	                return _react2.default.createElement(
-	                    "li",
-	                    { key: task.id, className: "checklist__task" },
-	                    _react2.default.createElement("input", { type: "checkbox", defaultChecked: "task.done" }),
+	                    'li',
+	                    { key: task.id, className: 'checklist__task' },
+	                    _react2.default.createElement('input', { type: 'checkbox', checked: task.done, onChange: _this2.props.taskCallbacks.toggle.bind(null, _this2.props.cardId, task.id, taskIndex) }),
 	                    task.name,
-	                    _react2.default.createElement("a", { href: "#", className: "checklist__task--remove" })
+	                    _react2.default.createElement('a', { href: '#', className: 'checklist__task--remove', onClick: _this2.props.taskCallbacks.delete.bind(null, _this2.props.cardId, task.id, taskIndex) })
 	                );
 	            });
 	
 	            return _react2.default.createElement(
-	                "div",
-	                { className: "checklist" },
+	                'div',
+	                { className: 'checklist' },
 	                _react2.default.createElement(
-	                    "ul",
+	                    'ul',
 	                    null,
 	                    tasks
 	                ),
-	                _react2.default.createElement("input", { type: "text",
-	                    className: "checklist--add-task",
-	                    placeholder: "Type then hit Enter to add a task" })
+	                _react2.default.createElement('input', { type: 'text',
+	                    className: 'checklist--add-task',
+	                    placeholder: 'Type then hit Enter to add a task',
+	                    onKeyPress: this.checkInputKeyPress.bind(this) })
 	            );
 	        }
 	    }]);
